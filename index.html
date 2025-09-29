@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v6.7</title>
+    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v6.8</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Noto+Serif+JP:wght@400;700&family=Playfair+Display:wght@700&family=Share+Tech+Mono&family=Special+Elite&display=swap" rel="stylesheet">
@@ -75,7 +75,7 @@
         .character-list { list-style: none; padding: 5px; margin: 0; min-height: 150px; background-color: var(--list-bg); border-radius: 4px; }
         
         .character-list:empty::before {
-            content: attr(data-empty-text, "--- NO DATA ---"); /* ★データ属性からテキストを取得 */
+            content: attr(data-empty-text, "--- NO DATA ---");
             display: block;
             text-align: center;
             color: var(--text-color);
@@ -121,6 +121,23 @@
 
         #reset-btn { background-color: #e74c3c; color: white; border-color: #c0392b; }
         #capture-btn { background-color: #28a745; color: white; border-color: #218838; }
+
+        /* ★ 使い方ガイド共通スタイル */
+        .how-to-use { margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: 4px; }
+        .how-to-use summary {
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+            background-color: var(--list-bg);
+        }
+        .how-to-use-content {
+            padding: 0 15px 15px 15px;
+            background-color: var(--item-bg);
+            border-top: 1px solid var(--border-color);
+        }
+        .how-to-use-content h4 { margin: 15px 0 5px 0; }
+        .how-to-use-content ul { padding-left: 20px; margin: 0; }
         
         /* ================================================================== */
         /* テーマごとのスタイル                                               */
@@ -154,6 +171,7 @@
         .theme-cyber #capture-btn { background-color: #00ffff; color: #0d0f18; border-color: #00ffff; box-shadow: 0 0 5px #00ffff; }
         .theme-cyber #reset-btn { background-color: #ff00ff; color: #0d0f18; border-color: #ff00ff; box-shadow: 0 0 5px #ff00ff; }
         .theme-cyber .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
+        .theme-cyber .how-to-use summary { color: var(--accent-color); }
 
         /* --- テーマ: クラシック --- */
         body.theme-classic {
@@ -254,6 +272,13 @@
     <div class="container">
         <header>
             <h1 id="main-title">COMBAT INITIATIVE</h1>
+
+            <details class="how-to-use">
+                <summary id="how-to-use-summary">How to Use</summary>
+                <div class="how-to-use-content" id="how-to-use-content">
+                    </div>
+            </details>
+
             <div class="controls-wrapper">
                 <div class="top-controls">
                     <div class="theme-switcher-wrapper">
@@ -317,7 +342,25 @@
                     initPlaceholder: "INIT",
                     dex1Title: "第1DEXサイクル (銃火器先攻)",
                     dex2Title: "第2DEXサイクル (通常行動)",
-                    emptyData: "--- NO DATA ---"
+                    emptyData: "--- NO DATA ---",
+                    howToUseTitle: "How to Use",
+                    howToUseContent: `
+                        <h4>キャラクター追加</h4>
+                        <ul>
+                            <li>名前、INIT(イニシアチブ値)、種類、イメージカラーを設定して「追加」ボタンを押します。</li>
+                            <li>INITには数字のほか「？」も入力可能です。</li>
+                        </ul>
+                        <h4>イニシアチブ管理</h4>
+                        <ul>
+                            <li>キャラクターはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li>
+                            <li>銃火器先攻を行うキャラクターは「第1DEXサイクル」へ移動させてください。</li>
+                        </ul>
+                        <h4>管理機能</h4>
+                        <ul>
+                            <li>各キャラクターの右の「×」で個別削除、「全削除」で全員を削除します。</li>
+                            <li>「画像出力」で戦闘ラウンド部分をPNG画像として保存できます。</li>
+                        </ul>
+                    `
                 },
                 japanese: {
                     mainTitle: "戦闘序列",
@@ -332,7 +375,25 @@
                     initPlaceholder: "行動値",
                     dex1Title: "壱之巡（銃火器先攻）",
                     dex2Title: "弐之巡（通常行動）",
-                    emptyData: "該当者なし"
+                    emptyData: "該当者なし",
+                    howToUseTitle: "使用方法",
+                    howToUseContent: `
+                        <h4>登場人物の追加</h4>
+                        <ul>
+                            <li>名、行動値、種別、配色を指定し「追加」を押してください。</li>
+                            <li>行動値には数字のほか「？」も入力可能です。</li>
+                        </ul>
+                        <h4>行動順の管理</h4>
+                        <ul>
+                            <li>各人物はドラッグ＆ドロップで自由に行動順を並べ替えられます。</li>
+                            <li>銃火器先攻を行う者は「壱之巡」へ移動させてください。</li>
+                        </ul>
+                        <h4>管理機能</h4>
+                        <ul>
+                            <li>各人物の右の「×」で個別消去、「全消去」で全員を消去します。</li>
+                            <li>「絵図出力」で戦闘序列の部分をPNG画像として保存できます。</li>
+                        </ul>
+                    `
                 }
             };
             
@@ -373,7 +434,6 @@
             });
             
             // --- 関数定義 ---
-            // ★ UIテキスト更新関数
             function updateUiText(theme) {
                 const isJapanese = theme === 'theme-japanese';
                 const textSet = isJapanese ? uiText.japanese : uiText.default;
@@ -390,6 +450,8 @@
                 initiativeInput.placeholder = textSet.initPlaceholder;
                 document.getElementById('dex-cycle-1-title').textContent = textSet.dex1Title;
                 document.getElementById('dex-cycle-2-title').textContent = textSet.dex2Title;
+                document.getElementById('how-to-use-summary').textContent = textSet.howToUseTitle;
+                document.getElementById('how-to-use-content').innerHTML = textSet.howToUseContent;
                 lists.forEach(list => list.dataset.emptyText = textSet.emptyData);
             }
 
