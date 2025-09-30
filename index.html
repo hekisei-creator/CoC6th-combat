@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v6.10</title>
+    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v7.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Noto+Serif+JP:wght@400;700&family=Playfair+Display:wght@700&family=Share+Tech+Mono&family=Special+Elite&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
@@ -70,7 +70,6 @@
         #character-initiative { width: 60px; text-align: center; }
         
         button { cursor: pointer; }
-        /* ★ 左に余白を追加 */
         .combat-rounds { display: flex; flex-direction: column; gap: 20px; padding-left: 30px; }
         .dex-cycle { background-color: var(--container-bg); border: 1px solid var(--border-color); flex: 1; padding: 15px; position: relative; }
         .character-list { list-style: none; padding: 5px; margin: 0; min-height: 150px; background-color: var(--list-bg); border-radius: 4px; }
@@ -104,39 +103,25 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         .character-info { display: flex; align-items: center; gap: 15px; }
-        .char-initiative {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: var(--accent-color);
-            min-width: 3ch;
-            text-align: center;
-        }
+        .char-initiative { font-size: 1.1em; font-weight: bold; color: var(--accent-color); min-width: 3ch; text-align: center; }
         .char-icon { width: 1.2em; height: 1.2em; flex-shrink: 0; display: inline-flex; justify-content: center; align-items: center; box-sizing: border-box; }
+        
+        .item-controls { display: flex; align-items: center; }
 
-        .delete-btn {
+        .duplicate-btn, .delete-btn {
             background: transparent; border: none; font-size: 1.5em; color: #aaa;
             cursor: pointer; padding: 0 5px; opacity: 0.5; transition: opacity 0.3s, color 0.3s;
         }
-        .character-item:hover .delete-btn { opacity: 1; }
+        .character-item:hover .duplicate-btn, .character-item:hover .delete-btn { opacity: 1; }
+        .duplicate-btn:hover { color: #3498db; }
         .delete-btn:hover { color: #f00; }
 
         #reset-btn { background-color: #e74c3c; color: white; border-color: #c0392b; }
         #capture-btn { background-color: #28a745; color: white; border-color: #218838; }
 
-        /* 使い方ガイド共通スタイル */
         .how-to-use { margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: 4px; }
-        .how-to-use summary {
-            padding: 10px 15px;
-            font-weight: bold;
-            cursor: pointer;
-            outline: none;
-            background-color: var(--list-bg);
-        }
-        .how-to-use-content {
-            padding: 0 15px 15px 15px;
-            background-color: var(--item-bg);
-            border-top: 1px solid var(--border-color);
-        }
+        .how-to-use summary { padding: 10px 15px; font-weight: bold; cursor: pointer; outline: none; background-color: var(--list-bg); }
+        .how-to-use-content { padding: 0 15px 15px 15px; background-color: var(--item-bg); border-top: 1px solid var(--border-color); }
         .how-to-use-content h4 { margin: 15px 0 5px 0; }
         .how-to-use-content ul { padding-left: 20px; margin: 0; }
         
@@ -144,7 +129,6 @@
         /* テーマごとのスタイル                                               */
         /* ================================================================== */
 
-        /* --- テーマ: デフォルト --- */
         body.theme-default {
             --base-bg: #2c3e50; --text-color: #ecf0f1; --container-bg: #34495e; --header-bg: #34495e;
             --list-bg: #2c3e50; --item-bg: #4a637e; --border-color: #2c3e50; --accent-color: #3498db;
@@ -156,7 +140,6 @@
         .theme-default .char-icon.enemy::before { content: '💀'; }
         .theme-default .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #95a5a6 50%, transparent calc(50% + 1px)); }
         
-        /* --- テーマ: サイバー --- */
         body.theme-cyber {
             --base-bg: #0d0f18; --text-color: #e0e0e0; --container-bg: rgba(20, 25, 40, 0.7); --header-bg: transparent;
             --list-bg: rgba(0, 0, 0, 0.2); --item-bg: transparent; --border-color: #00ffff; --accent-color: #00ffff;
@@ -168,13 +151,12 @@
         .theme-cyber .char-icon { background-color: var(--dynamic-color); width: 16px; height: 16px; }
         .theme-cyber .char-icon.investigator { transform: rotate(45deg); }
         .theme-cyber .char-icon.npc { border-radius: 50%; }
-        .theme-cyber .delete-btn:hover { color: var(--accent-color); text-shadow: 0 0 5px var(--accent-color); }
+        .theme-cyber .duplicate-btn:hover, .theme-cyber .delete-btn:hover { color: var(--accent-color); text-shadow: 0 0 5px var(--accent-color); }
         .theme-cyber #capture-btn { background-color: #00ffff; color: #0d0f18; border-color: #00ffff; box-shadow: 0 0 5px #00ffff; }
         .theme-cyber #reset-btn { background-color: #ff00ff; color: #0d0f18; border-color: #ff00ff; box-shadow: 0 0 5px #ff00ff; }
         .theme-cyber .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
         .theme-cyber .how-to-use summary { color: var(--accent-color); }
 
-        /* --- テーマ: クラシック --- */
         body.theme-classic {
             --base-bg: #e8e0d0; --text-color: #4a3f35; --container-bg: #fdfaf2; --header-bg: #f8f1e3;
             --list-bg: #e8e0d0; --item-bg: #fdfaf2; --border-color: #c9bba8; --accent-color: #a67b5b;
@@ -189,7 +171,6 @@
         .theme-classic #reset-btn { background-color: #8b4513; border-color: #653412; }
         .theme-classic .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
 
-        /* --- テーマ: 和風 --- */
         body.theme-japanese {
             --base-bg: #f3f3f3; --text-color: #333333; --container-bg: #ffffff; --header-bg: #fff;
             --list-bg: #e9e5e0; --item-bg: #fff; --border-color: #dcdcdc; --accent-color: #c0392b;
@@ -202,11 +183,10 @@
         .theme-japanese .char-icon.investigator::before { content: '探'; }
         .theme-japanese .char-icon.npc::before { content: 'Ｎ'; }
         .theme-japanese .char-icon.enemy::before { content: '敵'; }
-        .theme-japanese .delete-btn:hover { color: var(--accent-color); }
+        .theme-japanese .duplicate-btn:hover, .theme-japanese .delete-btn:hover { color: var(--accent-color); }
         .theme-japanese #reset-btn { background-color: #8B0000; border-color: #5a0000; }
         .theme-japanese .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
         
-        /* --- テーマ: ゴシック --- */
         body.theme-gothic {
             --base-bg: #1a1a1a; --text-color: #d8d8d8; --container-bg: #2a2a2a; --header-bg: #2a2a2a;
             --list-bg: #1f1f1f; --item-bg: #3a3a3a; --border-color: #444; --accent-color: #9a0000;
@@ -220,11 +200,10 @@
         .theme-gothic .char-icon.investigator::after, .theme-gothic .char-icon.npc::after { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
         .theme-gothic .char-icon.enemy::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%) rotate(45deg); }
         .theme-gothic .char-icon.enemy::after { width: 100%; height: 2px; top: 50%; transform: translateY(-50%) rotate(-45deg); }
-        .theme-gothic .delete-btn:hover { color: var(--accent-color); }
+        .theme-gothic .duplicate-btn:hover, .theme-gothic .delete-btn:hover { color: var(--accent-color); }
         .theme-gothic #reset-btn { background-color: var(--accent-color); border-color: #660000; }
         .theme-gothic .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
 
-        /* --- テーマ: 登山（狂気山脈） --- */
         body.theme-mountain {
             --base-bg: #dde4ed; --text-color: #2c3e50; --container-bg: rgba(240, 245, 255, 0.8); --header-bg: transparent;
             --list-bg: rgba(200, 210, 225, 0.5); --item-bg: rgba(255, 255, 255, 0.7); --border-color: #a0b0c0; --accent-color: #c0392b;
@@ -248,7 +227,6 @@
         .theme-mountain #capture-btn { background-color: #f39c12; color: white; border-color: #e67e22; }
         .theme-mountain .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #a0b0c0 50%, transparent calc(50% + 1px)); }
 
-        /* --- テーマ: モノクロ --- */
         body.theme-mono {
             --base-bg: #ffffff; --text-color: #000000; --container-bg: #ffffff; --header-bg: #ffffff;
             --list-bg: #f5f5f5; --item-bg: #ffffff; --border-color: #000000; --accent-color: #000000;
@@ -267,29 +245,15 @@
         .theme-mono .char-icon.enemy { background-color: var(--dynamic-color); }
         .theme-mono .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #ccc 50%, transparent calc(50% + 1px)); }
         
-        /* --- テーマ: FBI（捜査班） --- */
         body.theme-fbi {
-            --base-bg: #1c232e;
-            --text-color: #ecf0f1;
-            --container-bg: #2c3e50;
-            --header-bg: #2c3e50;
-            --list-bg: #1c232e;
-            --item-bg: #34495e;
-            --border-color: #76ff03;
-            --accent-color: #76ff03;
+            --base-bg: #1c232e; --text-color: #ecf0f1; --container-bg: #2c3e50; --header-bg: #2c3e50;
+            --list-bg: #1c232e; --item-bg: #34495e; --border-color: #76ff03; --accent-color: #76ff03;
             --font-main: 'Oswald', sans-serif;
         }
         .theme-fbi .container { border: 2px solid var(--accent-color); box-shadow: 0 0 10px rgba(118, 255, 3, 0.5); }
         .theme-fbi h1 { color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
         .theme-fbi h2 { color: #ecf0f1; text-transform: uppercase; border-bottom: 1px solid rgba(118, 255, 3, 0.5); padding-bottom: 5px; }
-        .theme-fbi .add-character-form input[type="text"],
-        .theme-fbi .add-character-form input[type="number"],
-        .theme-fbi .add-character-form select,
-        .theme-fbi .add-character-form button {
-            border: 1px solid var(--accent-color);
-            background-color: #1c232e;
-            color: var(--text-color);
-        }
+        .theme-fbi .add-character-form input[type="text"], .theme-fbi .add-character-form input[type="number"], .theme-fbi .add-character-form select, .theme-fbi .add-character-form button { border: 1px solid var(--accent-color); background-color: #1c232e; color: var(--text-color); }
         .theme-fbi button { background-color: var(--accent-color); color: #1c232e; border: none; font-weight: bold; }
         .theme-fbi button:hover { opacity: 0.8; }
         .theme-fbi #reset-btn { background-color: #e74c3c; color: white; border-color: #e74c3c; }
@@ -299,8 +263,8 @@
         .theme-fbi .char-icon.investigator { background-color: var(--dynamic-color); border-radius: 2px; width: 1.2em; height: 1.2em; }
         .theme-fbi .char-icon.npc { background-color: var(--dynamic-color); border-radius: 50%; width: 1.2em; height: 1.2em; }
         .theme-fbi .char-icon.enemy { border: 2px solid var(--dynamic-color); width: 1.2em; height: 1.2em; transform: rotate(45deg); background-color: transparent; }
-        .theme-fbi .delete-btn { color: #ccc; }
-        .theme-fbi .delete-btn:hover { color: var(--accent-color); }
+        .theme-fbi .delete-btn, .theme-fbi .duplicate-btn { color: #ccc; }
+        .theme-fbi .duplicate-btn:hover, .theme-fbi .delete-btn:hover { color: var(--accent-color); }
         .theme-fbi .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #4a637e 50%, transparent calc(50% + 1px)); }
         .theme-fbi .how-to-use summary { background-color: #1c232e; color: var(--accent-color); border-bottom: 1px solid var(--accent-color); }
         .theme-fbi .how-to-use-content { background-color: #2c3e50; border-top: 1px dashed var(--accent-color); }
@@ -346,7 +310,7 @@
                         <input type="radio" id="type-enemy" name="char-type" value="enemy">
                         <label for="type-enemy" id="label-enemy">エネミー</label>
                     </div>
-                    <input type="text" id="character-name" placeholder="キャラクター名">
+                    <input type="text" id="character-name" placeholder="コマの名前">
                     <input type="text" id="character-initiative" placeholder="INIT">
                     <input type="color" id="character-color" value="#000000">
                     <button id="add-character-btn">追加</button>
@@ -370,57 +334,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             // --- UIテキストの定義 ---
             const uiText = {
-                default: {
-                    mainTitle: "COMBAT INITIATIVE",
-                    themeLabel: "スキン: ",
-                    resetBtn: "全削除",
-                    captureBtn: "画像出力",
-                    labelInvestigator: "探索者",
-                    labelNpc: "NPC",
-                    labelEnemy: "エネミー",
-                    addBtn: "追加",
-                    namePlaceholder: "キャラクター名",
-                    initPlaceholder: "INIT",
-                    dex1Title: "第1DEXサイクル (銃火器先攻)",
-                    dex2Title: "第2DEXサイクル (通常行動)",
-                    emptyData: "--- NO DATA ---",
-                    howToUseTitle: "How to Use",
-                    howToUseContent: `<h4>キャラクター追加</h4><ul><li>名前、INIT(イニシアチブ値)、種類、イメージカラーを設定して「追加」ボタンを押します。</li><li>INITには数字のほか「？」も入力可能です。</li></ul><h4>イニシアチブ管理</h4><ul><li>キャラクターはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行うキャラクターは「第1DEXサイクル」へ移動させてください。</li></ul><h4>管理機能</h4><ul><li>各キャラクターの右の「×」で個別削除、「全削除」で全員を削除します。</li><li>「画像出力」で戦闘ラウンド部分をPNG画像として保存できます。</li></ul>`
-                },
-                japanese: {
-                    mainTitle: "戦闘序列",
-                    themeLabel: "意匠: ",
-                    resetBtn: "全消去",
-                    captureBtn: "絵図出力",
-                    labelInvestigator: "探索者",
-                    labelNpc: "NPC",
-                    labelEnemy: "敵対者",
-                    addBtn: "追加",
-                    namePlaceholder: "名",
-                    initPlaceholder: "行動値",
-                    dex1Title: "壱之巡（銃火器先攻）",
-                    dex2Title: "弐之巡（通常行動）",
-                    emptyData: "該当者なし",
-                    howToUseTitle: "使用方法",
-                    howToUseContent: `<h4>登場人物の追加</h4><ul><li>名、行動値、種別、配色を指定し「追加」を押してください。</li><li>行動値には数字のほか「？」も入力可能です。</li></ul><h4>行動順の管理</h4><ul><li>各人物はドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行う者は「壱之巡」へ移動させてください。</li></ul><h4>管理機能</h4><ul><li>各人物の右の「×」で個別消去、「全消去」で全員を消去します。</li><li>「絵図出力」で戦闘序列の部分をPNG画像として保存できます。</li></ul>`
-                },
-                fbi: {
-                    mainTitle: "FBI TACTICAL ORDER",
-                    themeLabel: "THEME: ",
-                    resetBtn: "CLEAR ALL",
-                    captureBtn: "EXPORT IMAGE",
-                    labelInvestigator: "AGENT",
-                    labelNpc: "CIVILIAN",
-                    labelEnemy: "HOSTILE",
-                    addBtn: "ADD",
-                    namePlaceholder: "NAME",
-                    initPlaceholder: "INIT",
-                    dex1Title: "CYCLE 1 (FIREARMS PRIORITY)",
-                    dex2Title: "CYCLE 2 (STANDARD ACTIONS)",
-                    emptyData: "--- NO ENTRIES ---",
-                    howToUseTitle: "OPERATIONAL GUIDANCE",
-                    howToUseContent: `<h4>ADD ENTRY</h4><ul><li>Enter name, INIT (Initiative value), type, and select a color, then click "ADD".</li><li>INIT field accepts numbers or "?".</li></ul><h4>MANAGE INITIATIVE</h4><ul><li>Entries can be reordered by drag & drop.</li><li>Move firearm-wielding characters to "CYCLE 1".</li></ul><h4>CONTROL FUNCTIONS</h4><ul><li>Click "×" to delete individual entries, or "CLEAR ALL" to remove all.</li><li>"EXPORT IMAGE" saves the tactical order section as a PNG image.</li></ul>`
-                }
+                default: { mainTitle: "COMBAT INITIATIVE", themeLabel: "スキン: ", resetBtn: "全削除", captureBtn: "画像出力", labelInvestigator: "探索者", labelNpc: "NPC", labelEnemy: "エネミー", addBtn: "追加", namePlaceholder: "コマの名前", initPlaceholder: "INIT", dex1Title: "第1DEXサイクル (銃火器先攻)", dex2Title: "第2DEXサイクル (通常行動)", emptyData: "--- NO DATA ---", howToUseTitle: "How to Use", howToUseContent: `<h4>コマの追加</h4><ul><li>名前、INIT(イニシアチブ値)、種類、イメージカラーを設定して「追加」ボタンを押します。</li><li>INITには数字のほか「？」も入力可能です。</li></ul><h4>イニシアチブ管理</h4><ul><li>コマはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行うコマは「第1DEXサイクル」へ移動させてください。（基本ルールブックp65参照）</li></ul><h4>管理機能</h4><ul><li>各コマの右の「×」で個別削除、「全削除」で全員を削除します。</li><li>「❐」ボタンでコマを複製できます。</li><li>「画像出力」で戦闘ラウンド部分をPNG画像として保存できます。</li></ul>` },
+                japanese: { mainTitle: "戦闘序列", themeLabel: "意匠: ", resetBtn: "全消去", captureBtn: "絵図出力", labelInvestigator: "探索者", labelNpc: "NPC", labelEnemy: "敵対者", addBtn: "追加", namePlaceholder: "コマの名前", initPlaceholder: "行動値", dex1Title: "壱之巡（銃火器先攻）", dex2Title: "弐之巡（通常行動）", emptyData: "該当者なし", howToUseTitle: "使用方法", howToUseContent: `<h4>コマの追加</h4><ul><li>名前、行動値、種別、配色を指定し「追加」を押してください。</li><li>行動値には数字のほか「？」も入力可能です。</li></ul><h4>行動順の管理</h4><ul><li>各コマはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行うコマは「壱之巡」へ移動させてください。（基本ルールブックp65参照）</li></ul><h4>管理機能</h4><ul><li>各コマの右の「×」で個別消去、「全消去」で全員を消去します。</li><li>「❐」ボタンでコマを複製できます。</li><li>「絵図出力」で戦闘序列の部分をPNG画像として保存できます。</li></ul>` },
+                fbi: { mainTitle: "FBI TACTICAL ORDER", themeLabel: "THEME: ", resetBtn: "CLEAR ALL", captureBtn: "EXPORT IMAGE", labelInvestigator: "AGENT", labelNpc: "CIVILIAN", labelEnemy: "HOSTILE", addBtn: "ADD", namePlaceholder: "NAME", initPlaceholder: "INIT", dex1Title: "CYCLE 1 (FIREARMS PRIORITY)", dex2Title: "CYCLE 2 (STANDARD ACTIONS)", emptyData: "--- NO ENTRIES ---", howToUseTitle: "OPERATIONAL GUIDANCE", howToUseContent: `<h4>ADD ENTRY</h4><ul><li>Enter name, INIT (Initiative value), type, and select a color, then click "ADD".</li><li>INIT field accepts numbers or "?".</li></ul><h4>MANAGE INITIATIVE</h4><ul><li>Entries can be reordered by drag & drop.</li><li>Move firearm-wielding characters to "CYCLE 1". (Refer to the basic rulebook, p. 65)</li></ul><h4>CONTROL FUNCTIONS</h4><ul><li>Click "×" to delete individual entries, or "CLEAR ALL" to remove all.</li><li>Click "❐" to duplicate an entry.</li><li>"EXPORT IMAGE" saves the tactical order section as a PNG image.</li></ul>` }
             };
             
             // --- 要素取得 ---
@@ -437,9 +353,9 @@
             let draggedItem = null;
 
             // --- イベントリスナー設定 ---
-            addButton.addEventListener('click', addCharacter);
-            nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addCharacter(); });
-            initiativeInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addCharacter(); });
+            addButton.addEventListener('click', () => addCharacterFromForm());
+            nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addCharacterFromForm(); });
+            initiativeInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addCharacterFromForm(); });
             
             themeSwitcher.addEventListener('change', (e) => {
                 const theme = e.target.value;
@@ -453,13 +369,73 @@
 
             lists.forEach(list => {
                 list.addEventListener('click', (e) => {
+                    const targetItem = e.target.closest('.character-item');
+                    if (!targetItem) return;
+
                     if (e.target.closest('.delete-btn')) {
-                        e.target.closest('.character-item').remove();
+                        targetItem.remove();
+                    } else if (e.target.closest('.duplicate-btn')) {
+                        duplicateCharacter(targetItem);
                     }
                 });
             });
             
             // --- 関数定義 ---
+            function createCharacterElement(name, initiative, color, charType) {
+                const li = document.createElement('li');
+                li.className = 'character-item';
+                li.draggable = true;
+                li.dataset.initiative = initiative;
+                
+                li.innerHTML = `
+                    <div class="character-info">
+                        <span class="char-initiative"></span>
+                        <span class="char-icon ${charType}"></span>
+                        <span class="char-name">${name}</span>
+                    </div>
+                    <div class="item-controls">
+                        <button class="duplicate-btn">❐</button>
+                        <button class="delete-btn">×</button>
+                    </div>
+                `;
+                
+                li.style.setProperty('--dynamic-color', color);
+                li.querySelector('.char-name').style.color = color;
+                
+                updateInitiativeDisplay(li);
+                addDragEvents(li);
+                return li;
+            }
+            
+            function addCharacterFromForm() {
+                const name = nameInput.value.trim();
+                let initiative = initiativeInput.value.trim();
+                const color = colorInput.value;
+                const charType = document.querySelector('input[name="char-type"]:checked').value;
+
+                if (name === '') { alert('コマの名前を入力してください。'); return; }
+                
+                initiative = initiative.replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
+
+                const newCharElement = createCharacterElement(name, initiative, color, charType);
+                document.getElementById('list-2').appendChild(newCharElement);
+
+                nameInput.value = '';
+                initiativeInput.value = '';
+                nameInput.focus();
+            }
+
+            function duplicateCharacter(originalItem) {
+                const name = originalItem.querySelector('.char-name').textContent;
+                const initiative = originalItem.dataset.initiative;
+                const color = originalItem.style.getPropertyValue('--dynamic-color');
+                const iconSpan = originalItem.querySelector('.char-icon');
+                const charType = Array.from(iconSpan.classList).find(c => c !== 'char-icon');
+
+                const newCharElement = createCharacterElement(name, initiative, color, charType);
+                originalItem.after(newCharElement);
+            }
+
             function updateUiText(theme) {
                 const themeKey = theme.replace('theme-', '');
                 const textSet = uiText[themeKey] || uiText.default;
@@ -480,43 +456,6 @@
                 document.getElementById('how-to-use-content').innerHTML = textSet.howToUseContent;
                 lists.forEach(list => list.dataset.emptyText = textSet.emptyData);
             }
-
-            function addCharacter() {
-                const name = nameInput.value.trim();
-                let initiative = initiativeInput.value.trim();
-                const color = colorInput.value;
-                const charType = document.querySelector('input[name="char-type"]:checked').value;
-
-                if (name === '') { alert('キャラクター名を入力してください。'); return; }
-                
-                initiative = initiative.replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
-
-                const li = document.createElement('li');
-                li.className = 'character-item';
-                li.draggable = true;
-                li.dataset.initiative = initiative;
-                
-                li.innerHTML = `
-                    <div class="character-info">
-                        <span class="char-initiative"></span>
-                        <span class="char-icon ${charType}"></span>
-                        <span class="char-name">${name}</span>
-                    </div>
-                    <button class="delete-btn">×</button>
-                `;
-                
-                li.style.setProperty('--dynamic-color', color);
-                li.querySelector('.char-name').style.color = color;
-                
-                updateInitiativeDisplay(li);
-
-                addDragEvents(li);
-                document.getElementById('list-2').appendChild(li);
-
-                nameInput.value = '';
-                initiativeInput.value = '';
-                nameInput.focus();
-            }
             
             function updateInitiativeDisplay(listItem) {
                 const initiativeValue = listItem.dataset.initiative;
@@ -530,29 +469,22 @@
             }
             
             function toKanjiNumber(numStr) {
-                if (!numStr || isNaN(parseInt(numStr, 10))) {
-                    return numStr || '-';
-                }
-
+                if (!numStr || isNaN(parseInt(numStr, 10))) { return numStr || '-'; }
                 const num = parseInt(numStr, 10);
                 if (num === 0) return '零';
-
                 const kanjiDigits = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
                 let result = '';
-
                 if (num >= 10) {
                     const tens = Math.floor(num / 10);
                     result += (tens > 1 ? kanjiDigits[tens] : '') + '十';
                 }
                 const ones = num % 10;
-                if (ones > 0) {
-                    result += kanjiDigits[ones];
-                }
+                if (ones > 0) { result += kanjiDigits[ones]; }
                 return result;
             }
 
             function resetAll() {
-                if (confirm('本当にすべてのキャラクターを削除しますか？')) {
+                if (confirm('本当にすべてのコマを削除しますか？')) {
                     lists.forEach(list => list.innerHTML = '');
                 }
             }
@@ -560,15 +492,11 @@
             function captureAndDownload() {
                 const computedStyle = getComputedStyle(document.body);
                 let bgColor = computedStyle.backgroundColor;
-                if (bgColor === 'rgba(0, 0, 0, 0)') {
-                    bgColor = '#ffffff';
-                }
+                if (bgColor === 'rgba(0, 0, 0, 0)') { bgColor = '#ffffff'; }
 
                 html2canvas(captureArea, {
-                    backgroundColor: bgColor,
-                    scale: 2,
-                    windowWidth: captureArea.scrollWidth,
-                    windowHeight: captureArea.scrollHeight
+                    backgroundColor: bgColor, scale: 2,
+                    windowWidth: captureArea.scrollWidth, windowHeight: captureArea.scrollHeight
                 }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = 'combat_initiative.png';
@@ -612,7 +540,6 @@
                 }, { offset: Number.NEGATIVE_INFINITY }).element;
             }
             
-            // ★ 初期化
             updateUiText(themeSwitcher.value);
         });
     </script>
