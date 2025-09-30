@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v6.8</title>
+    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v6.9</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Noto+Serif+JP:wght@400;700&family=Playfair+Display:wght@700&family=Share+Tech+Mono&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Noto+Serif+JP:wght@400;700&family=Playfair+Display:wght@700&family=Share+Tech+Mono&family=Special+Elite&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* ======================================== */
@@ -122,7 +122,7 @@
         #reset-btn { background-color: #e74c3c; color: white; border-color: #c0392b; }
         #capture-btn { background-color: #28a745; color: white; border-color: #218838; }
 
-        /* ★ 使い方ガイド共通スタイル */
+        /* 使い方ガイド共通スタイル */
         .how-to-use { margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: 4px; }
         .how-to-use summary {
             padding: 10px 15px;
@@ -265,6 +265,46 @@
         .theme-mono .char-icon.npc { background-color: var(--dynamic-color); border-radius: 50%; }
         .theme-mono .char-icon.enemy { background-color: var(--dynamic-color); }
         .theme-mono .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #ccc 50%, transparent calc(50% + 1px)); }
+        
+        /* ★ --- 新テーマ: FBI（捜査班） --- */
+        body.theme-fbi {
+            --base-bg: #1c232e; /* 濃いグレー */
+            --text-color: #ecf0f1; /* 明るい白 */
+            --container-bg: #2c3e50; /* 少し明るいグレー */
+            --header-bg: #2c3e50;
+            --list-bg: #1c232e;
+            --item-bg: #34495e;
+            --border-color: #76ff03; /* ライムグリーン */
+            --accent-color: #76ff03; /* ライムグリーン */
+            --font-main: 'Oswald', sans-serif; /* シャープなフォント */
+        }
+        .theme-fbi .container { border: 2px solid var(--accent-color); box-shadow: 0 0 10px rgba(118, 255, 3, 0.5); }
+        .theme-fbi h1 { color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .theme-fbi h2 { color: #ecf0f1; text-transform: uppercase; border-bottom: 1px solid rgba(118, 255, 3, 0.5); padding-bottom: 5px; }
+        .theme-fbi .add-character-form input[type="text"],
+        .theme-fbi .add-character-form input[type="number"],
+        .theme-fbi .add-character-form select,
+        .theme-fbi .add-character-form button {
+            border: 1px solid var(--accent-color);
+            background-color: #1c232e;
+            color: var(--text-color);
+        }
+        .theme-fbi button { background-color: var(--accent-color); color: #1c232e; border: none; font-weight: bold; }
+        .theme-fbi button:hover { opacity: 0.8; }
+        .theme-fbi #reset-btn { background-color: #e74c3c; color: white; border-color: #e74c3c; }
+        .theme-fbi #capture-btn { background-color: #76ff03; color: #1c232e; border-color: #76ff03; }
+        .theme-fbi .character-item { border: 1px solid var(--border-color); border-left: 5px solid var(--accent-color); background-color: var(--item-bg); }
+        .theme-fbi .char-initiative { color: var(--accent-color); font-weight: 700; }
+        .theme-fbi .char-icon.investigator { background-color: var(--dynamic-color); border-radius: 2px; width: 1.2em; height: 1.2em; }
+        .theme-fbi .char-icon.npc { background-color: var(--dynamic-color); border-radius: 50%; width: 1.2em; height: 1.2em; }
+        .theme-fbi .char-icon.enemy { border: 2px solid var(--dynamic-color); width: 1.2em; height: 1.2em; transform: rotate(45deg); background-color: transparent; }
+        .theme-fbi .delete-btn { color: #ccc; }
+        .theme-fbi .delete-btn:hover { color: var(--accent-color); }
+        .theme-fbi .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #4a637e 50%, transparent calc(50% + 1px)); }
+        .theme-fbi .how-to-use summary { background-color: #1c232e; color: var(--accent-color); border-bottom: 1px solid var(--accent-color); }
+        .theme-fbi .how-to-use-content { background-color: #2c3e50; border-top: 1px dashed var(--accent-color); }
+        .theme-fbi .how-to-use-content h4 { color: var(--accent-color); }
+        .theme-fbi .how-to-use-content ul li { color: #ecf0f1; }
 
     </style>
 </head>
@@ -291,6 +331,7 @@
                             <option value="theme-gothic">ゴシック</option>
                             <option value="theme-mountain">登山（狂気山脈）</option>
                             <option value="theme-mono">モノクロ</option>
+                            <option value="theme-fbi">FBI（捜査班）</option>
                         </select>
                     </div>
                     <button id="reset-btn">全削除</button>
@@ -378,20 +419,53 @@
                     emptyData: "該当者なし",
                     howToUseTitle: "使用方法",
                     howToUseContent: `
-                        <h4>駒の追加</h4>
+                        <h4>登場人物の追加</h4>
                         <ul>
                             <li>名、行動値、種別、配色を指定し「追加」を押してください。</li>
                             <li>行動値には数字のほか「？」も入力可能です。</li>
                         </ul>
                         <h4>行動順の管理</h4>
                         <ul>
-                            <li>各駒はドラッグ＆ドロップで自由に行動順を並べ替えられます。</li>
+                            <li>各人物はドラッグ＆ドロップで自由に行動順を並べ替えられます。</li>
                             <li>銃火器先攻を行う者は「壱之巡」へ移動させてください。</li>
                         </ul>
                         <h4>管理機能</h4>
                         <ul>
-                            <li>各人物の右の「×」で個別消去、「全消去」で全ての駒を消去します。</li>
+                            <li>各人物の右の「×」で個別消去、「全消去」で全員を消去します。</li>
                             <li>「絵図出力」で戦闘序列の部分をPNG画像として保存できます。</li>
+                        </ul>
+                    `
+                },
+                fbi: {
+                    mainTitle: "FBI TACTICAL ORDER",
+                    themeLabel: "THEME: ",
+                    resetBtn: "CLEAR ALL",
+                    captureBtn: "EXPORT IMAGE",
+                    labelInvestigator: "AGENT",
+                    labelNpc: "CIVILIAN",
+                    labelEnemy: "SUSPECT",
+                    addBtn: "ADD",
+                    namePlaceholder: "NAME",
+                    initPlaceholder: "DEX",
+                    dex1Title: "DEX CYCLE 1 (FIREARMS FIRST)",
+                    dex2Title: "DEX CYCLE 2 (STANDARD ACTIONS)",
+                    emptyData: "--- NO DATA ---",
+                    howToUseTitle: "OPERATIONAL GUIDANCE",
+                    howToUseContent: `
+                        <h4>ADD ENTRY</h4>
+                        <ul>
+                            <li>Enter name, DEX (Dexterity value), type, and select a color, then click "ADD".</li>
+                            <li>DEX field accepts numbers or "?".</li>
+                        </ul>
+                        <h4>MANAGE INITIATIVE</h4>
+                        <ul>
+                            <li>Entries can be reordered by drag & drop.</li>
+                            <li>Move firearm-wielding characters to "DEX CYCLE 1".</li>
+                        </ul>
+                        <h4>CONTROL FUNCTIONS</h4>
+                        <ul>
+                            <li>Click "×" to delete individual entries, or "CLEAR ALL" to remove all.</li>
+                            <li>"EXPORT IMAGE" saves the combat order section as a PNG image.</li>
                         </ul>
                     `
                 }
@@ -435,8 +509,7 @@
             
             // --- 関数定義 ---
             function updateUiText(theme) {
-                const isJapanese = theme === 'theme-japanese';
-                const textSet = isJapanese ? uiText.japanese : uiText.default;
+                const textSet = uiText[theme] || uiText.default; // 現在のテーマ、またはデフォルトを使用
 
                 document.getElementById('main-title').textContent = textSet.mainTitle;
                 document.getElementById('theme-label').textContent = textSet.themeLabel;
@@ -592,4 +665,3 @@
     </script>
 </body>
 </html>
-
