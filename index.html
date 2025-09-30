@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v6.9</title>
+    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v6.10</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Noto+Serif+JP:wght@400;700&family=Playfair+Display:wght@700&family=Share+Tech+Mono&family=Special+Elite&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
@@ -70,7 +70,8 @@
         #character-initiative { width: 60px; text-align: center; }
         
         button { cursor: pointer; }
-        .combat-rounds { display: flex; flex-direction: column; gap: 20px; }
+        /* ★ 左に余白を追加 */
+        .combat-rounds { display: flex; flex-direction: column; gap: 20px; padding-left: 30px; }
         .dex-cycle { background-color: var(--container-bg); border: 1px solid var(--border-color); flex: 1; padding: 15px; position: relative; }
         .character-list { list-style: none; padding: 5px; margin: 0; min-height: 150px; background-color: var(--list-bg); border-radius: 4px; }
         
@@ -266,17 +267,17 @@
         .theme-mono .char-icon.enemy { background-color: var(--dynamic-color); }
         .theme-mono .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #ccc 50%, transparent calc(50% + 1px)); }
         
-        /* ★ --- 新テーマ: FBI（捜査班） --- */
+        /* --- テーマ: FBI（捜査班） --- */
         body.theme-fbi {
-            --base-bg: #1c232e; /* 濃いグレー */
-            --text-color: #ecf0f1; /* 明るい白 */
-            --container-bg: #2c3e50; /* 少し明るいグレー */
+            --base-bg: #1c232e;
+            --text-color: #ecf0f1;
+            --container-bg: #2c3e50;
             --header-bg: #2c3e50;
             --list-bg: #1c232e;
             --item-bg: #34495e;
-            --border-color: #76ff03; /* ライムグリーン */
-            --accent-color: #76ff03; /* ライムグリーン */
-            --font-main: 'Oswald', sans-serif; /* シャープなフォント */
+            --border-color: #76ff03;
+            --accent-color: #76ff03;
+            --font-main: 'Oswald', sans-serif;
         }
         .theme-fbi .container { border: 2px solid var(--accent-color); box-shadow: 0 0 10px rgba(118, 255, 3, 0.5); }
         .theme-fbi h1 { color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
@@ -293,7 +294,7 @@
         .theme-fbi button:hover { opacity: 0.8; }
         .theme-fbi #reset-btn { background-color: #e74c3c; color: white; border-color: #e74c3c; }
         .theme-fbi #capture-btn { background-color: #76ff03; color: #1c232e; border-color: #76ff03; }
-        .theme-fbi .character-item { border: 1px solid var(--border-color); border-left: 5px solid var(--accent-color); background-color: var(--item-bg); }
+        .theme-fbi .character-item { border: 1px solid #4a637e; border-left: 5px solid var(--accent-color); background-color: var(--item-bg); }
         .theme-fbi .char-initiative { color: var(--accent-color); font-weight: 700; }
         .theme-fbi .char-icon.investigator { background-color: var(--dynamic-color); border-radius: 2px; width: 1.2em; height: 1.2em; }
         .theme-fbi .char-icon.npc { background-color: var(--dynamic-color); border-radius: 50%; width: 1.2em; height: 1.2em; }
@@ -315,8 +316,7 @@
 
             <details class="how-to-use">
                 <summary id="how-to-use-summary">How to Use</summary>
-                <div class="how-to-use-content" id="how-to-use-content">
-                    </div>
+                <div class="how-to-use-content" id="how-to-use-content"></div>
             </details>
 
             <div class="controls-wrapper">
@@ -325,13 +325,13 @@
                         <label for="theme-switcher" id="theme-label">スキン: </label>
                         <select id="theme-switcher">
                             <option value="theme-default">デフォルト</option>
+                            <option value="theme-fbi">FBI（捜査班）</option>
                             <option value="theme-cyber">サイバー</option>
                             <option value="theme-classic">クラシック</option>
                             <option value="theme-japanese">和風</option>
                             <option value="theme-gothic">ゴシック</option>
                             <option value="theme-mountain">登山（狂気山脈）</option>
                             <option value="theme-mono">モノクロ</option>
-                            <option value="theme-fbi">FBI（捜査班）</option>
                         </select>
                     </div>
                     <button id="reset-btn">全削除</button>
@@ -385,23 +385,7 @@
                     dex2Title: "第2DEXサイクル (通常行動)",
                     emptyData: "--- NO DATA ---",
                     howToUseTitle: "How to Use",
-                    howToUseContent: `
-                        <h4>キャラクター追加</h4>
-                        <ul>
-                            <li>名前、INIT(イニシアチブ値)、種類、イメージカラーを設定して「追加」ボタンを押します。</li>
-                            <li>INITには数字のほか「？」も入力可能です。</li>
-                        </ul>
-                        <h4>イニシアチブ管理</h4>
-                        <ul>
-                            <li>キャラクターはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li>
-                            <li>銃火器先攻を行うキャラクターは「第1DEXサイクル」へ移動させてください。</li>
-                        </ul>
-                        <h4>管理機能</h4>
-                        <ul>
-                            <li>各キャラクターの右の「×」で個別削除、「全削除」で全員を削除します。</li>
-                            <li>「画像出力」で戦闘ラウンド部分をPNG画像として保存できます。</li>
-                        </ul>
-                    `
+                    howToUseContent: `<h4>キャラクター追加</h4><ul><li>名前、INIT(イニシアチブ値)、種類、イメージカラーを設定して「追加」ボタンを押します。</li><li>INITには数字のほか「？」も入力可能です。</li></ul><h4>イニシアチブ管理</h4><ul><li>キャラクターはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行うキャラクターは「第1DEXサイクル」へ移動させてください。</li></ul><h4>管理機能</h4><ul><li>各キャラクターの右の「×」で個別削除、「全削除」で全員を削除します。</li><li>「画像出力」で戦闘ラウンド部分をPNG画像として保存できます。</li></ul>`
                 },
                 japanese: {
                     mainTitle: "戦闘序列",
@@ -418,23 +402,7 @@
                     dex2Title: "弐之巡（通常行動）",
                     emptyData: "該当者なし",
                     howToUseTitle: "使用方法",
-                    howToUseContent: `
-                        <h4>登場人物の追加</h4>
-                        <ul>
-                            <li>名、行動値、種別、配色を指定し「追加」を押してください。</li>
-                            <li>行動値には数字のほか「？」も入力可能です。</li>
-                        </ul>
-                        <h4>行動順の管理</h4>
-                        <ul>
-                            <li>各人物はドラッグ＆ドロップで自由に行動順を並べ替えられます。</li>
-                            <li>銃火器先攻を行う者は「壱之巡」へ移動させてください。</li>
-                        </ul>
-                        <h4>管理機能</h4>
-                        <ul>
-                            <li>各人物の右の「×」で個別消去、「全消去」で全員を消去します。</li>
-                            <li>「絵図出力」で戦闘序列の部分をPNG画像として保存できます。</li>
-                        </ul>
-                    `
+                    howToUseContent: `<h4>登場人物の追加</h4><ul><li>名、行動値、種別、配色を指定し「追加」を押してください。</li><li>行動値には数字のほか「？」も入力可能です。</li></ul><h4>行動順の管理</h4><ul><li>各人物はドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行う者は「壱之巡」へ移動させてください。</li></ul><h4>管理機能</h4><ul><li>各人物の右の「×」で個別消去、「全消去」で全員を消去します。</li><li>「絵図出力」で戦闘序列の部分をPNG画像として保存できます。</li></ul>`
                 },
                 fbi: {
                     mainTitle: "FBI TACTICAL ORDER",
@@ -443,31 +411,15 @@
                     captureBtn: "EXPORT IMAGE",
                     labelInvestigator: "AGENT",
                     labelNpc: "CIVILIAN",
-                    labelEnemy: "SUSPECT",
+                    labelEnemy: "HOSTILE",
                     addBtn: "ADD",
                     namePlaceholder: "NAME",
-                    initPlaceholder: "DEX",
-                    dex1Title: "DEX CYCLE 1 (FIREARMS FIRST)",
-                    dex2Title: "DEX CYCLE 2 (STANDARD ACTIONS)",
-                    emptyData: "--- NO DATA ---",
+                    initPlaceholder: "INIT",
+                    dex1Title: "CYCLE 1 (FIREARMS PRIORITY)",
+                    dex2Title: "CYCLE 2 (STANDARD ACTIONS)",
+                    emptyData: "--- NO ENTRIES ---",
                     howToUseTitle: "OPERATIONAL GUIDANCE",
-                    howToUseContent: `
-                        <h4>ADD ENTRY</h4>
-                        <ul>
-                            <li>Enter name, DEX (Dexterity value), type, and select a color, then click "ADD".</li>
-                            <li>DEX field accepts numbers or "?".</li>
-                        </ul>
-                        <h4>MANAGE INITIATIVE</h4>
-                        <ul>
-                            <li>Entries can be reordered by drag & drop.</li>
-                            <li>Move firearm-wielding characters to "DEX CYCLE 1".</li>
-                        </ul>
-                        <h4>CONTROL FUNCTIONS</h4>
-                        <ul>
-                            <li>Click "×" to delete individual entries, or "CLEAR ALL" to remove all.</li>
-                            <li>"EXPORT IMAGE" saves the combat order section as a PNG image.</li>
-                        </ul>
-                    `
+                    howToUseContent: `<h4>ADD ENTRY</h4><ul><li>Enter name, INIT (Initiative value), type, and select a color, then click "ADD".</li><li>INIT field accepts numbers or "?".</li></ul><h4>MANAGE INITIATIVE</h4><ul><li>Entries can be reordered by drag & drop.</li><li>Move firearm-wielding characters to "CYCLE 1".</li></ul><h4>CONTROL FUNCTIONS</h4><ul><li>Click "×" to delete individual entries, or "CLEAR ALL" to remove all.</li><li>"EXPORT IMAGE" saves the tactical order section as a PNG image.</li></ul>`
                 }
             };
             
@@ -509,7 +461,8 @@
             
             // --- 関数定義 ---
             function updateUiText(theme) {
-                const textSet = uiText[theme] || uiText.default; // 現在のテーマ、またはデフォルトを使用
+                const themeKey = theme.replace('theme-', '');
+                const textSet = uiText[themeKey] || uiText.default;
 
                 document.getElementById('main-title').textContent = textSet.mainTitle;
                 document.getElementById('theme-label').textContent = textSet.themeLabel;
