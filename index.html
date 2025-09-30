@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v7.2</title>
+    <title>クトゥルフ神話TRPG 銃火器戦闘サポーター v7.3</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Noto+Serif+JP:wght@400;700&family=Playfair+Display:wght@700&family=Share+Tech+Mono&family=Special+Elite&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
@@ -138,10 +138,18 @@
         .duplicate-btn:hover { color: #3498db; }
         .delete-btn:hover { color: #f00; }
         
-        /* ★ 画像出力時にマーカーとボタンを非表示にする */
         #capture-area.is-exporting #turn-marker,
         #capture-area.is-exporting .item-controls {
             display: none;
+        }
+        
+        /* ★ 背景透過エクスポート用の一時スタイル */
+        body.transparent-export {
+            background: transparent !important;
+        }
+        body.transparent-export .container {
+            background: transparent !important;
+            box-shadow: none !important;
         }
 
         #reset-btn { background-color: #e74c3c; color: white; border-color: #c0392b; }
@@ -323,6 +331,9 @@
                     </div>
                     <button id="reset-btn">全削除</button>
                     <button id="capture-btn">画像出力</button>
+                    <label for="transparent-bg-check" style="margin-left: 10px; cursor:pointer;">
+                        <input type="checkbox" id="transparent-bg-check"> 背景透過
+                    </label>
                 </div>
                 <div class="add-character-form">
                     <div class="char-type-selector">
@@ -362,12 +373,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- UIテキストの定義 ---
             const uiText = {
-                default: { mainTitle: "COMBAT INITIATIVE", themeLabel: "スキン: ", resetBtn: "全削除", captureBtn: "画像出力", labelInvestigator: "探索者", labelNpc: "NPC", labelEnemy: "エネミー", addBtn: "追加", namePlaceholder: "コマの名前", initPlaceholder: "INIT", dex1Title: "第1DEXサイクル (銃火器先攻)", dex2Title: "第2DEXサイクル (通常行動)", emptyData: "--- NO DATA ---", howToUseTitle: "How to Use", howToUseContent: `<h4>コマの追加</h4><ul><li>名前、INIT(イニシアチブ値)、種類、イメージカラーを設定して「追加」ボタンを押します。</li><li>INITには数字のほか「？」も入力可能です。</li></ul><h4>イニシアチブ管理</h4><ul><li>コマはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行うコマは「第1DEXサイクル」へ移動させてください。（基本ルールブックp65参照）</li><li>左の「▶」マーカーをドラッグして現在の手番を示すことができます。</li></ul><h4>管理機能</h4><ul><li>各コマの右の「×」で個別削除、「全削除」で全てを削除します。</li><li>「❐」ボタンでコマを複製できます。</li><li>「画像出力」で戦闘ラウンド部分をPNG画像として保存できます。（「▶」マーカーは出力されません）</li></ul>` },
-                japanese: { mainTitle: "戦闘序列", themeLabel: "意匠: ", resetBtn: "全消去", captureBtn: "絵図出力", labelInvestigator: "探索者", labelNpc: "NPC", labelEnemy: "敵対者", addBtn: "追加", namePlaceholder: "コマの名前", initPlaceholder: "行動値", dex1Title: "壱之巡（銃火器先攻）", dex2Title: "弐之巡（通常行動）", emptyData: "該当者なし", howToUseTitle: "使用方法", howToUseContent: `<h4>コマの追加</h4><ul><li>名前、行動値、種別、配色を指定し「追加」を押してください。</li><li>行動値には数字のほか「？」も入力可能です。</li></ul><h4>行動順の管理</h4><ul><li>各コマはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行うコマは「壱之巡」へ移動させてください。（基本ルールブックp65参照）</li><li>左の「▶」印をドラッグして現在の手番を示すことができます。</li></ul><h4>管理機能</h4><ul><li>各コマの右の「×」で個別消去、「全消去」で全てを消去します。</li><li>「❐」ボタンでコマを複製できます。</li><li>「絵図出力」で戦闘序列の部分をPNG画像として保存できます。（「▶」印は出力されません）</li></ul>` },
-                fbi: { mainTitle: "FBI TACTICAL ORDER", themeLabel: "THEME: ", resetBtn: "CLEAR ALL", captureBtn: "EXPORT IMAGE", labelInvestigator: "AGENT", labelNpc: "CIVILIAN", labelEnemy: "HOSTILE", addBtn: "ADD", namePlaceholder: "NAME", initPlaceholder: "INIT", dex1Title: "CYCLE 1 (FIREARMS PRIORITY)", dex2Title: "CYCLE 2 (STANDARD ACTIONS)", emptyData: "--- NO ENTRIES ---", howToUseTitle: "OPERATIONAL GUIDANCE", howToUseContent: `<h4>ADD ENTRY</h4><ul><li>Enter name, INIT (Initiative value), type, and select a color, then click "ADD".</li><li>INIT field accepts numbers or "?".</li></ul><h4>MANAGE INITIATIVE</h4><ul><li>Entries can be reordered by drag & drop.</li><li>Move firearm-wielding characters to "CYCLE 1". (Refer to the basic rulebook, p. 65)</li><li>Drag the "▶" marker on the left to indicate the current turn.</li></ul><h4>CONTROL FUNCTIONS</h4><ul><li>Click "×" to delete individual entries, or "CLEAR ALL" to remove all.</li><li>Click "❐" to duplicate an entry.</li><li>"EXPORT IMAGE" saves the tactical order section as a PNG image. (The "▶" marker will not be exported)</li></ul>` }
+                default: { mainTitle: "COMBAT INITIATIVE", themeLabel: "スキン: ", resetBtn: "全削除", captureBtn: "画像出力", labelInvestigator: "探索者", labelNpc: "NPC", labelEnemy: "エネミー", addBtn: "追加", namePlaceholder: "コマの名前", initPlaceholder: "INIT", dex1Title: "第1DEXサイクル (銃火器先攻)", dex2Title: "第2DEXサイクル (通常行動)", emptyData: "--- NO DATA ---", howToUseTitle: "How to Use", howToUseContent: `<h4>コマの追加</h4><ul><li>名前、INIT(イニシアチブ値)、種類、イメージカラーを設定して「追加」ボタンを押します。</li><li>INITには数字のほか「？」も入力可能です。</li></ul><h4>イニシアチブ管理</h4><ul><li>コマはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行うコマは「第1DEXサイクル」へ移動させてください。（基本ルールブックp65参照）</li><li>左の「▶」マーカーをドラッグして現在の手番を示すことができます。</li></ul><h4>管理機能</h4><ul><li>各コマの右の「×」で個別削除、「全削除」で全てを削除します。</li><li>「❐」ボタンでコマを複製できます。</li><li>「画像出力」で戦闘ラウンド部分をPNG画像として保存できます。（「▶」マーカーと各種ボタンは出力されません）</li></ul>` },
+                japanese: { mainTitle: "戦闘序列", themeLabel: "意匠: ", resetBtn: "全消去", captureBtn: "絵図出力", labelInvestigator: "探索者", labelNpc: "NPC", labelEnemy: "敵対者", addBtn: "追加", namePlaceholder: "コマの名前", initPlaceholder: "行動値", dex1Title: "壱之巡（銃火器先攻）", dex2Title: "弐之巡（通常行動）", emptyData: "該当者なし", howToUseTitle: "使用方法", howToUseContent: `<h4>コマの追加</h4><ul><li>名前、行動値、種別、配色を指定し「追加」を押してください。</li><li>行動値には数字のほか「？」も入力可能です。</li></ul><h4>行動順の管理</h4><ul><li>各コマはドラッグ＆ドロップで自由に行動順を並べ替えられます。</li><li>銃火器先攻を行うコマは「壱之巡」へ移動させてください。（基本ルールブックp65参照）</li><li>左の「▶」印をドラッグして現在の手番を示すことができます。</li></ul><h4>管理機能</h4><ul><li>各コマの右の「×」で個別消去、「全消去」で全てを消去します。</li><li>「❐」ボタンでコマを複製できます。</li><li>「絵図出力」で戦闘序列の部分をPNG画像として保存できます。（「▶」印と各種ボタンは出力されません）</li></ul>` },
+                fbi: { mainTitle: "FBI TACTICAL ORDER", themeLabel: "THEME: ", resetBtn: "CLEAR ALL", captureBtn: "EXPORT IMAGE", labelInvestigator: "AGENT", labelNpc: "CIVILIAN", labelEnemy: "HOSTILE", addBtn: "ADD", namePlaceholder: "NAME", initPlaceholder: "INIT", dex1Title: "CYCLE 1 (FIREARMS PRIORITY)", dex2Title: "CYCLE 2 (STANDARD ACTIONS)", emptyData: "--- NO ENTRIES ---", howToUseTitle: "OPERATIONAL GUIDANCE", howToUseContent: `<h4>ADD ENTRY</h4><ul><li>Enter name, INIT (Initiative value), type, and select a color, then click "ADD".</li><li>INIT field accepts numbers or "?".</li></ul><h4>MANAGE INITIATIVE</h4><ul><li>Entries can be reordered by drag & drop.</li><li>Move firearm-wielding characters to "CYCLE 1". (Refer to the basic rulebook, p. 65)</li><li>Drag the "▶" marker on the left to indicate the current turn.</li></ul><h4>CONTROL FUNCTIONS</h4><ul><li>Click "×" to delete individual entries, or "CLEAR ALL" to remove all.</li><li>Click "❐" to duplicate an entry.</li><li>"EXPORT IMAGE" saves the tactical order section as a PNG image. (The "▶" marker and buttons will not be exported)</li></ul>` }
             };
             
+            // --- 要素取得 ---
             const nameInput = document.getElementById('character-name');
             const initiativeInput = document.getElementById('character-initiative');
             const colorInput = document.getElementById('character-color');
@@ -376,11 +389,13 @@
             const themeSwitcher = document.getElementById('theme-switcher');
             const resetButton = document.getElementById('reset-btn');
             const captureButton = document.getElementById('capture-btn');
+            const transparentCheck = document.getElementById('transparent-bg-check');
             const captureArea = document.getElementById('capture-area');
             const turnMarker = document.getElementById('turn-marker');
 
             let draggedItem = null;
 
+            // --- イベントリスナー設定 ---
             addButton.addEventListener('click', () => addCharacterFromForm());
             nameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addCharacterFromForm(); });
             initiativeInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addCharacterFromForm(); });
@@ -399,12 +414,8 @@
                 list.addEventListener('click', (e) => {
                     const targetItem = e.target.closest('.character-item');
                     if (!targetItem) return;
-
-                    if (e.target.closest('.delete-btn')) {
-                        targetItem.remove();
-                    } else if (e.target.closest('.duplicate-btn')) {
-                        duplicateCharacter(targetItem);
-                    }
+                    if (e.target.closest('.delete-btn')) { targetItem.remove(); } 
+                    else if (e.target.closest('.duplicate-btn')) { duplicateCharacter(targetItem); }
                 });
             });
 
@@ -426,6 +437,7 @@
                 turnMarker.style.top = `${newY}px`;
             });
             
+            // --- 関数定義 ---
             function createCharacterElement(name, initiative, color, charType) {
                 const li = document.createElement('li');
                 li.className = 'character-item';
@@ -515,19 +527,33 @@
             }
             
             function captureAndDownload() {
+                const isTransparent = transparentCheck.checked;
+                const options = {
+                    scale: 2,
+                    windowWidth: captureArea.scrollWidth,
+                    windowHeight: captureArea.scrollHeight
+                };
+
+                if (isTransparent) {
+                    options.backgroundColor = null;
+                    document.body.classList.add('transparent-export');
+                } else {
+                    const computedStyle = getComputedStyle(document.body);
+                    options.backgroundColor = computedStyle.backgroundColor === 'rgba(0, 0, 0, 0)' ? '#ffffff' : computedStyle.backgroundColor;
+                }
+
                 captureArea.classList.add('is-exporting');
-                const computedStyle = getComputedStyle(document.body);
-                let bgColor = computedStyle.backgroundColor;
-                if (bgColor === 'rgba(0, 0, 0, 0)') { bgColor = '#ffffff'; }
-                html2canvas(captureArea, {
-                    backgroundColor: bgColor, scale: 2,
-                    windowWidth: captureArea.scrollWidth, windowHeight: captureArea.scrollHeight
-                }).then(canvas => {
+                
+                html2canvas(captureArea, options).then(canvas => {
                     const link = document.createElement('a');
                     link.download = 'combat_initiative.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
+                    
                     captureArea.classList.remove('is-exporting');
+                    if (isTransparent) {
+                        document.body.classList.remove('transparent-export');
+                    }
                 });
             }
 
