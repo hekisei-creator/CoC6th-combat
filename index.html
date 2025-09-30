@@ -149,6 +149,159 @@
         .how-to-use-content h4 { margin: 15px 0 5px 0; }
         .how-to-use-content ul { padding-left: 20px; margin: 0; }
         
+        /* ================================================================== */
+        /* ★★★ テーマごとのスタイル ★★★                                  */
+        /* ================================================================== */
+
+        /* --- テーマ: デフォルト --- */
+        body.theme-default {
+            --base-bg: #2c3e50; --text-color: #ecf0f1; --container-bg: #34495e; --header-bg: #34495e;
+            --list-bg: #2c3e50; --item-bg: #4a637e; --border-color: #2c3e50; --accent-color: #3498db;
+            --font-main: 'Meiryo', 'メイリオ', sans-serif;
+        }
+        .theme-default h1, .theme-default h2 { color: #95a5a6; }
+        .theme-default .char-icon::before { font-size: 1em; }
+        .theme-default .char-icon.investigator::before, .theme-default .char-icon.npc::before { content: '👤'; }
+        .theme-default .char-icon.enemy::before { content: '💀'; }
+        .theme-default .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #95a5a6 50%, transparent calc(50% + 1px)); }
+        
+        /* --- テーマ: サイバー --- */
+        body.theme-cyber {
+            --base-bg: #0d0f18; --text-color: #e0e0e0; --container-bg: rgba(20, 25, 40, 0.7); --header-bg: transparent;
+            --list-bg: rgba(0, 0, 0, 0.2); --item-bg: transparent; --border-color: #00ffff; --accent-color: #00ffff;
+            --font-main: 'Share Tech Mono', monospace;
+        }
+        .theme-cyber .container { box-shadow: 0 0 5px var(--border-color), 0 0 10px var(--border-color); backdrop-filter: blur(10px); }
+        .theme-cyber h1 { color: var(--accent-color); text-shadow: 0 0 3px var(--accent-color); }
+        .theme-cyber .char-initiative { text-shadow: 0 0 3px var(--accent-color); }
+        .theme-cyber .char-icon { background-color: var(--dynamic-color); width: 16px; height: 16px; }
+        .theme-cyber .char-icon.investigator { transform: rotate(45deg); }
+        .theme-cyber .char-icon.npc { border-radius: 50%; }
+        .theme-cyber .duplicate-btn:hover, .theme-cyber .delete-btn:hover { color: var(--accent-color); text-shadow: 0 0 5px var(--accent-color); }
+        .theme-cyber #capture-btn { background-color: #00ffff; color: #0d0f18; border-color: #00ffff; box-shadow: 0 0 5px #00ffff; }
+        .theme-cyber #reset-btn { background-color: #ff00ff; color: #0d0f18; border-color: #ff00ff; box-shadow: 0 0 5px #ff00ff; }
+        .theme-cyber .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
+        .theme-cyber .how-to-use summary { color: var(--accent-color); }
+
+        /* --- テーマ: クラシック --- */
+        body.theme-classic {
+            --base-bg: #e8e0d0; --text-color: #4a3f35; --container-bg: #fdfaf2; --header-bg: #f8f1e3;
+            --list-bg: #e8e0d0; --item-bg: #fdfaf2; --border-color: #c9bba8; --accent-color: #a67b5b;
+            --font-main: 'Playfair Display', serif;
+        }
+        .theme-classic .container { box-shadow: 5px 5px 15px rgba(0,0,0,0.2); }
+        .theme-classic h1 { font-weight: 700; color: var(--text-color); }
+        .theme-classic .character-item { border-radius: 0; }
+        .theme-classic .char-icon { background-color: var(--dynamic-color); width: 14px; height: 14px; border: 1px solid var(--text-color); }
+        .theme-classic .char-icon.investigator { border-radius: 50%; }
+        .theme-classic .char-icon.npc { border-radius: 50%; width: 10px; height: 10px; }
+        .theme-classic #reset-btn { background-color: #8b4513; border-color: #653412; }
+        .theme-classic .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
+
+        /* --- テーマ: 和風 --- */
+        body.theme-japanese {
+            --base-bg: #f3f3f3; --text-color: #333333; --container-bg: #ffffff; --header-bg: #fff;
+            --list-bg: #e9e5e0; --item-bg: #fff; --border-color: #dcdcdc; --accent-color: #c0392b;
+            --font-main: 'Noto Serif JP', serif;
+        }
+        .theme-japanese .container { border: 2px solid #333; }
+        .theme-japanese h1 { color: var(--accent-color); font-weight: 700; }
+        .theme-japanese .character-item { border-right: 5px solid var(--dynamic-color); }
+        .theme-japanese .char-icon::before { font-size: 1em; }
+        .theme-japanese .char-icon.investigator::before { content: '探'; }
+        .theme-japanese .char-icon.npc::before { content: 'Ｎ'; }
+        .theme-japanese .char-icon.enemy::before { content: '敵'; }
+        .theme-japanese .duplicate-btn:hover, .theme-japanese .delete-btn:hover { color: var(--accent-color); }
+        .theme-japanese #reset-btn { background-color: #8B0000; border-color: #5a0000; }
+        .theme-japanese .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
+        
+        /* --- テーマ: ゴシック --- */
+        body.theme-gothic {
+            --base-bg: #1a1a1a; --text-color: #d8d8d8; --container-bg: #2a2a2a; --header-bg: #2a2a2a;
+            --list-bg: #1f1f1f; --item-bg: #3a3a3a; --border-color: #444; --accent-color: #9a0000;
+            --font-main: 'Crimson Text', serif;
+        }
+        .theme-gothic .container, .theme-gothic .dex-cycle { border-color: var(--accent-color); box-shadow: 0 0 8px rgba(154, 0, 0, 0.5); }
+        .theme-gothic h1 { font-style: italic; color: var(--accent-color); text-shadow: 0 0 5px #ff0000; }
+        .theme-gothic .char-icon { width: 16px; height: 16px; position: relative; }
+        .theme-gothic .char-icon::before, .theme-gothic .char-icon::after { content: ''; position: absolute; background-color: var(--dynamic-color); }
+        .theme-gothic .char-icon.investigator::before, .theme-gothic .char-icon.npc::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+        .theme-gothic .char-icon.investigator::after, .theme-gothic .char-icon.npc::after { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
+        .theme-gothic .char-icon.enemy::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%) rotate(45deg); }
+        .theme-gothic .char-icon.enemy::after { width: 100%; height: 2px; top: 50%; transform: translateY(-50%) rotate(-45deg); }
+        .theme-gothic .duplicate-btn:hover, .theme-gothic .delete-btn:hover { color: var(--accent-color); }
+        .theme-gothic #reset-btn { background-color: var(--accent-color); border-color: #660000; }
+        .theme-gothic .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), var(--border-color) 50%, transparent calc(50% + 1px)); }
+
+        /* --- テーマ: 登山（狂気山脈） --- */
+        body.theme-mountain {
+            --base-bg: #dde4ed; --text-color: #2c3e50; --container-bg: rgba(240, 245, 255, 0.8); --header-bg: transparent;
+            --list-bg: rgba(200, 210, 225, 0.5); --item-bg: rgba(255, 255, 255, 0.7); --border-color: #a0b0c0; --accent-color: #c0392b;
+            --font-main: 'Special Elite', monospace;
+            background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%), linear-gradient(-45deg, rgba(255,255,255,0.05) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.05) 75%), linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.05) 75%);
+            background-size: 20px 20px;
+            background-color: #34495e;
+        }
+        .theme-mountain .container { border-style: double; border-width: 3px; backdrop-filter: blur(5px); }
+        .theme-mountain h1 { color: #2c3e50; letter-spacing: 2px; }
+        .theme-mountain .character-item { border-radius: 2px; border-left: 4px solid var(--dynamic-color); }
+        .theme-mountain .char-initiative { color: var(--accent-color); }
+        .theme-mountain .char-icon { position: relative; }
+        .theme-mountain .char-icon::before, .theme-mountain .char-icon::after { content: ''; position: absolute; background-color: var(--dynamic-color); }
+        .theme-mountain .char-icon.investigator::before { width: 3px; height: 100%; left: 50%; transform: translateX(-50%); border-radius: 2px; }
+        .theme-mountain .char-icon.investigator::after { width: 60%; height: 3px; top: 15%; left: 15%; transform-origin: left; transform: rotate(-15deg); border-radius: 2px; }
+        .theme-mountain .char-icon.npc { border: 3px solid var(--dynamic-color); border-right-color: transparent; border-radius: 10px 50% 50% 10px; transform: rotate(-45deg); background-color: transparent !important; }
+        .theme-mountain .char-icon.npc::before, .theme-mountain .char-icon.npc::after { display: none; }
+        .theme-mountain .char-icon.enemy { background-color: transparent; border-style: solid; border-width: 0 10px 17.3px 10px; border-color: transparent transparent var(--dynamic-color) transparent; width: 0; height: 0; }
+        .theme-mountain #reset-btn { background-color: var(--accent-color); border-color: #992d22; }
+        .theme-mountain #capture-btn { background-color: #f39c12; color: white; border-color: #e67e22; }
+        .theme-mountain .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #a0b0c0 50%, transparent calc(50% + 1px)); }
+
+        /* --- テーマ: モノクロ --- */
+        body.theme-mono {
+            --base-bg: #ffffff; --text-color: #000000; --container-bg: #ffffff; --header-bg: #ffffff;
+            --list-bg: #f5f5f5; --item-bg: #ffffff; --border-color: #000000; --accent-color: #000000;
+            --font-main: 'Helvetica', 'Arial', sans-serif;
+        }
+        .theme-mono .container { border: 2px solid #000; box-shadow: none; border-radius: 0; }
+        .theme-mono .dex-cycle { border: 2px solid #000; }
+        .theme-mono h1 { font-weight: bold; }
+        .theme-mono button, .theme-mono select, .theme-mono input[type="text"], .theme-mono input[type="color"] { border-radius: 0; border: 1px solid #000; }
+        .theme-mono button { background-color: #eee; }
+        .theme-mono button:hover { background-color: #ddd; }
+        .theme-mono #reset-btn, .theme-mono #capture-btn { background-color: #000; color: #fff; }
+        .theme-mono .character-item { border-radius: 0; }
+        .theme-mono .char-icon.investigator { border: 3px solid var(--dynamic-color); border-radius: 50%; }
+        .theme-mono .char-icon.npc { background-color: var(--dynamic-color); border-radius: 50%; }
+        .theme-mono .char-icon.enemy { background-color: var(--dynamic-color); }
+        .theme-mono .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #ccc 50%, transparent calc(50% + 1px)); }
+        
+        /* --- テーマ: FBI（捜査班） --- */
+        body.theme-fbi {
+            --base-bg: #1c232e; --text-color: #ecf0f1; --container-bg: #2c3e50; --header-bg: #2c3e50;
+            --list-bg: #1c232e; --item-bg: #34495e; --border-color: #76ff03; --accent-color: #76ff03;
+            --font-main: 'Oswald', sans-serif;
+        }
+        .theme-fbi .container { border: 2px solid var(--accent-color); box-shadow: 0 0 10px rgba(118, 255, 3, 0.5); }
+        .theme-fbi h1 { color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .theme-fbi h2 { color: #ecf0f1; text-transform: uppercase; border-bottom: 1px solid rgba(118, 255, 3, 0.5); padding-bottom: 5px; }
+        .theme-fbi .add-character-form input[type="text"], .theme-fbi .add-character-form input[type="number"], .theme-fbi .add-character-form select, .theme-fbi .add-character-form button { border: 1px solid var(--accent-color); background-color: #1c232e; color: var(--text-color); }
+        .theme-fbi button { background-color: var(--accent-color); color: #1c232e; border: none; font-weight: bold; }
+        .theme-fbi button:hover { opacity: 0.8; }
+        .theme-fbi #reset-btn { background-color: #e74c3c; color: white; border-color: #e74c3c; }
+        .theme-fbi #capture-btn { background-color: #76ff03; color: #1c232e; border-color: #76ff03; }
+        .theme-fbi .character-item { border: 1px solid #4a637e; border-left: 5px solid var(--accent-color); background-color: var(--item-bg); }
+        .theme-fbi .char-initiative { color: var(--accent-color); font-weight: 700; }
+        .theme-fbi .char-icon.investigator { background-color: var(--dynamic-color); border-radius: 2px; width: 1.2em; height: 1.2em; }
+        .theme-fbi .char-icon.npc { background-color: var(--dynamic-color); border-radius: 50%; width: 1.2em; height: 1.2em; }
+        .theme-fbi .char-icon.enemy { border: 2px solid var(--dynamic-color); width: 1.2em; height: 1.2em; transform: rotate(45deg); background-color: transparent; }
+        .theme-fbi .delete-btn, .theme-fbi .duplicate-btn { color: #ccc; }
+        .theme-fbi .duplicate-btn:hover, .theme-fbi .delete-btn:hover { color: var(--accent-color); }
+        .theme-fbi .character-list:empty::before { background-image: linear-gradient(to top left, transparent calc(50% - 1px), #4a637e 50%, transparent calc(50% + 1px)); }
+        .theme-fbi .how-to-use summary { background-color: #1c232e; color: var(--accent-color); border-bottom: 1px solid var(--accent-color); }
+        .theme-fbi .how-to-use-content { background-color: #2c3e50; border-top: 1px dashed var(--accent-color); }
+        .theme-fbi .how-to-use-content h4 { color: var(--accent-color); }
+        .theme-fbi .how-to-use-content ul li { color: #ecf0f1; }
 
     </style>
 </head>
@@ -156,10 +309,12 @@
     <div class="container">
         <header>
             <h1 id="main-title">COMBAT INITIATIVE</h1>
+
             <details class="how-to-use">
                 <summary id="how-to-use-summary">How to Use</summary>
                 <div class="how-to-use-content" id="how-to-use-content"></div>
             </details>
+
             <div class="controls-wrapper">
                 <div class="top-controls">
                     <div class="theme-switcher-wrapper">
